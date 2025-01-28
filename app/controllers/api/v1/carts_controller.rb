@@ -16,7 +16,8 @@ module Api
       end
 
       def remove_item
-        result = current_cart.remove_item(item, quantity_param)
+        cart = Cart.find(params[:cart_id])
+        result = cart.remove_item(item, quantity_param)
         if result
           render json: ::V1::CartSerializer.new(current_cart).serializable_hash
         else
