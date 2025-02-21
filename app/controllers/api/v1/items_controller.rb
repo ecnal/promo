@@ -8,6 +8,7 @@ module Api
 
       def show
         item = Item.find(params[:id])
+        Analytic.create(source: "items/show", source_id: item.id)
         render json: ::V1::ItemSerializer.new(item).serializable_hash
       end
 

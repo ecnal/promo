@@ -5,7 +5,7 @@ RSpec.describe Promotion, type: :model do
     let(:cart) { create(:cart) }
 
     context 'with buy x get y discount thru promotion item' do
-      let(:promotion) { create(:promotion, promotion_type: 'buy_x_get_y', min_quantity: 0, discount_quantity: 5, value: 15.0) }
+      let(:promotion) { create(:promotion, promotion_type: 'buy_x_get_y', min_quantity: 5, discount_quantity: 1, value: 15.0) }
       let(:item) { create(:item, price: 20.0) }
 
       before do
@@ -14,13 +14,13 @@ RSpec.describe Promotion, type: :model do
       end
 
       it 'calculates correct savings' do
-        expect(promotion.calculate_savings(cart)).to eq(15.0)
+        expect(promotion.calculate_savings(cart)).to eq(3)
       end
     end
 
     context 'with buy x get y discount thru promotion category' do
       let(:category) { create(:category) }
-      let(:promotion) { create(:promotion, promotion_type: 'buy_x_get_y', min_quantity: 0, discount_quantity: 5, value: 15.0) }
+      let(:promotion) { create(:promotion, promotion_type: 'buy_x_get_y', min_quantity: 5, discount_quantity: 1, value: 15.0) }
       let(:item) { create(:item, price: 20.0) }
 
       before do
@@ -30,7 +30,7 @@ RSpec.describe Promotion, type: :model do
       end
 
       it 'calculates correct savings' do
-        expect(promotion.calculate_savings(cart)).to eq(15.0)
+        expect(promotion.calculate_savings(cart)).to eq(3)
       end
     end
   end

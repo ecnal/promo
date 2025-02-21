@@ -3,6 +3,7 @@ module Api
     class CartsController < ApplicationController
       def show
         cart = Cart.find(params[:cart_id])
+        Analytic.create(source: "carts/show", source_id: cart.id)
         render json: ::V1::CartSerializer.new(cart).serializable_hash
       end
 
@@ -19,9 +20,9 @@ module Api
         cart = Cart.find(params[:cart_id])
         result = cart.remove_item(item, quantity_param)
         if result
-          render json: ::V1::CartSerializer.new(current_cart).serializable_hash
+          render json: ::V1::CartSerializer.new(cart).serializable_hash
         else
-          render json: { errors: current_cart.errors }, status: :unprocessable_entity
+          render json: { errors: cart.errors }, status: :unprocessable_entity
         end
       end
 

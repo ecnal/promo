@@ -75,7 +75,7 @@ class Promotion < ApplicationRecord
 
     def calculate_buy_x_get_y_price(cart_item, original_price)
       return original_price if cart_item.quantity < min_quantity
-      groups = cart_item.quantity / (min_quantity + discount_quantity)
+      groups = cart_item.quantity / (min_quantity)
       discounted_quantity = groups * discount_quantity
       original_price * (cart_item.quantity - discounted_quantity +
         (discounted_quantity * (1 - value / 100.0)))
@@ -109,7 +109,7 @@ class Promotion < ApplicationRecord
   def calculate_buy_x_get_y_savings(cart)
     applicable_items(cart).sum do |item|
       cart_item = cart.cart_items.find_by(item: item)
-      groups = cart_item.quantity / (min_quantity + discount_quantity)
+      groups = cart_item.quantity / (min_quantity)
       discount_items = groups * discount_quantity
       discount_items * item.price * (value / 100.0)
     end
