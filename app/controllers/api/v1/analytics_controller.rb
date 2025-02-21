@@ -15,10 +15,4 @@ class Api::V1::AnalyticsController < ApplicationController
                           .limit(5)
     render json: { top_5_carts: top_5_carts, top_5_items: top_5_items }.to_json, status: :ok
   end
-
-  private
-
-  def analytic_params
-    params.fetch(:analytic, {})
-  end
 end
